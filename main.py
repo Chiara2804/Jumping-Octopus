@@ -11,7 +11,7 @@ char = pygame.image.load('images/character.png')
 char = pygame.transform.scale(char, (50, 50))
 char = pygame.transform.flip(char, True, False)
 ground = pygame.image.load('images/tile_0002.png')
-ground = pygame.transform.scale(ground, (50, 50))
+ground = pygame.transform.scale(ground, (1600, 50))
 tube_up = pygame.image.load('images/tile_0095.png')
 tube_up = pygame.transform.scale(tube_up, (50, 50))
 tube_down = pygame.transform.flip(tube_up, False, True)
@@ -28,15 +28,17 @@ VEL_ON = 3
 class Tube:
     def __init__(self):
         self.x = 300
-        self.y = random.randint(-75, 150)
+        #self.y = random.randint(-75, 150)
+        self.y = 150
     def go_on_and_draw(self):
         self.x -= VEL_ON
         disp.blit(tube_down, (self.x, self.y+210))
-        disp.blit(tube_up, (self.x, self.y+550))
+        disp.blit(tube_up, (self.x+80, self.y+500))
 
 # drawing elements
 def draw():
     disp.blit(bg, (0,0))
+
     for t in tubes:
         t.go_on_and_draw()
     disp.blit(char, (char_x, char_y))
@@ -50,7 +52,7 @@ def initialization():
     global char_x, char_y, char_vel
     global ground_x
     global tubes
-    char_x, char_y = 100, 650
+    char_x, char_y = 200, 650
     char_vel = 0
     ground_x = 0
     tubes = []
@@ -73,11 +75,8 @@ initialization()
 # Main
 while True:
     # ground
-    if ground_x < -40: ground_x = 800
+    if ground_x < -375: ground_x = 0
     ground_x -= VEL_ON
-
-    char_vel += 1
-    char_x = char_vel
 
     # Commands
     for event in pygame.event.get():
@@ -87,9 +86,9 @@ while True:
             if event.key == pygame.K_RIGHT:
                 char_x += 5
             if event.key == pygame.K_DOWN:
-                char_y += 5
+                char_y += 10
             if event.key == pygame.K_UP:
-                char_y -= 20
+                char_y -= 10
 
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
